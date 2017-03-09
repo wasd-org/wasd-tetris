@@ -1,54 +1,63 @@
 import { padStart } from './util'
 
 const I = [
-  [0b1111],
   [
-    0b1,
-    0b1,
-    0b1,
-    0b1
+    0b0000,
+    0b1111,
+    0b0000,
+    0b0000
+  ],
+  [
+    0b0010,
+    0b0010,
+    0b0010,
+    0b0010
   ]
 ]
 
 const J = [
   [
+    0b000,
     0b111,
     0b001,
   ],
   [
-    0b01,
-    0b01,
-    0b11
+    0b010,
+    0b010,
+    0b110
   ],
   [
     0b100,
-    0b111
+    0b111,
+    0b000
   ],
   [
-    0b11,
-    0b10,
-    0b10
+    0b011,
+    0b010,
+    0b010
   ]
 ]
 
 const L = [
   [
+    0b000,
     0b111,
     0b100
   ],
   [
-    0b11,
-    0b01,
-    0b01
+    0b110,
+    0b010,
+    0b010
   ],
   [
     0b001,
-    0b111
+    0b111,
+    0b000
   ],
   [
-    0b10,
-    0b10,
-    0b11
+    0b010,
+    0b010,
+    0b011
   ]
 ]
 
@@ -61,46 +70,70 @@ const O = [
 
 const S = [
   [
+    0b000,
     0b011,
     0b110
   ],
   [
-    0b10,
-    0b11,
-    0b01
-  ]
+    0b100,
+    0b110,
+    0b010
+  ],
+  [
+    0b011,
+    0b110,
+    0b000
+  ],
+  [
+    0b010,
+    0b011,
+    0b001
+  ],
 ]
 
 const T = [
   [
+    0b000,
     0b111,
     0b010
   ],
   [
-    0b01,
-    0b11,
-    0b01
+    0b010,
+    0b110,
+    0b010
   ],
   [
     0b010,
-    0b111
+    0b111,
+    0b000
   ],
   [
-    0b10,
-    0b11,
-    0b10
+    0b010,
+    0b011,
+    0b010
   ]
 ]
 
 const Z = [
   [
+    0b000,
     0b110,
     0b011
   ],
   [
-    0b01,
-    0b11,
-    0b10
+    0b010,
+    0b110,
+    0b100
+  ],
+  [
+    0b110,
+    0b011,
+    0b000
+  ],
+  [
+    0b001,
+    0b011,
+    0b010
   ]
 ]
 
@@ -114,21 +147,20 @@ export const shapes = {
   Z
 }
 
-const map = [
-  0,
-  1,
-  2,
-  2,
-  3,
-  3,
-  3,
-  3
-]
-
 export default class Shape {
   constructor(name = 'I') {
     this.shapes = shapes[name] || I
     this._sequence = 0
+    this.row = this.shape.length
+    this.col = this
+      .shapes
+      .map(s => {
+        return s.reduce((p, c) => {
+          const l = c === 0 ? 0 : c.toString(2).length
+          return l > p ? l : p
+        }, 0)
+      })
+      .sort((a, b) => a < b)[0]
   }
 
   get sequence() {
@@ -149,14 +181,6 @@ export default class Shape {
     return this.shapes[this.sequence]
   }
 
-  get row() {
-    return this.shape.length
-  }
-
-  get col() {
-    return map[this.shape.reduce((c, p) => c > p ? c : p, 0)]
-  }
-
   next(clockwise = true) {
     if (clockwise) {
       this.sequence++
@@ -167,7 +191,7 @@ export default class Shape {
 
   print() {
     this.shape.forEach(i => {
-      console.log(padStart(i.toString(2), this.col, '0').replace(/0/g, ' '))
+      console.log(padStart(i.toString(2), this.col, '0'))
     })
   }
 }
