@@ -151,15 +151,10 @@ export default class Shape {
   constructor(name = 'I') {
     this.shapes = shapes[name] || I
     this._sequence = 0
-    this.row = this.shape.length
-    this.col = this
+    this.maxRow = this.shape.length
+    this.maxCol = this
       .shapes
-      .map(s => {
-        return s.reduce((p, c) => {
-          const l = c === 0 ? 0 : c.toString(2).length
-          return l > p ? l : p
-        }, 0)
-      })
+      .map(s => s.reduce((p, c) => p | c, 0).toString(2).length)
       .sort((a, b) => a < b)[0]
   }
 
@@ -179,6 +174,14 @@ export default class Shape {
 
   get shape() {
     return this.shapes[this.sequence]
+  }
+
+  get row() {
+    return this.shape.filter(a => a).length
+  }
+
+  get col() {
+    return this.shape.reduce((p, c) => p | c, 0).toString(2).length
   }
 
   next(clockwise = true) {
