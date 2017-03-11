@@ -1,4 +1,5 @@
 import { padStart } from './util'
+import { random } from './util/object'
 
 const I = [
   [
@@ -160,8 +161,8 @@ export const shapes = {
 }
 
 export default class Shape {
-  constructor(name = 'I') {
-    this.shapes = shapes[name] || I
+  constructor(name) {
+    this.shapes = name ? shapes[name] : random(shapes)
     this._sequence = 0
     this.maxRow = this.shape.length
     this.maxCol = this
@@ -236,7 +237,7 @@ export default class Shape {
   }
 
   get col() {
-    return this.shape.reduce((p, c) => p | c, 0).toString(2).length
+    return this.maxCol - this.margin.left - this.margin.right
   }
 
   rotate(clockwise = true) {
@@ -249,7 +250,7 @@ export default class Shape {
 
   print() {
     this.shape.forEach(i => {
-      console.log(padStart(i.toString(2), this.col, '0'))
+      return padStart(i.toString(2), this.maxCol, '0')
     })
   }
 }
