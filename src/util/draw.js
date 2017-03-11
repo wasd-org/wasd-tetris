@@ -1,6 +1,6 @@
+import { times } from './char'
 const stream = process.stdout
 
-const times = (str, num) => Array(num).join(str)
 
 export default class Draw {
   constructor(row = 20, col = 10) {

@@ -4,3 +4,5 @@ export function padStart(str, length, place = ' ') {
   }
   return str
 }
+
+export const times = (str, num) => Array(num + 1).join(str)
