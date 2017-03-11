@@ -15,8 +15,8 @@ rollup
   .then(bundle => {
     bundle.write({
       format: 'cjs',
-      moduleName: 'core-tetris',
-      dest: 'dist/core-tetris.js'
+      moduleName: 'wasd-tetris',
+      dest: 'dist/wasd-tetris.js'
     })
   })
   .catch(err => {

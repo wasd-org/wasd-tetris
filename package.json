@@ -1,11 +1,11 @@
 {
-  "name": "core-tetris",
+  "name": "wasd-tetris",
   "version": "0.0.1",
   "description": "🎮 A tetris only with core data layer.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -w src -e js --exec 'node build/dev.js; node dist/core-tetris.js'",
-    "play": "node build/dev.js; node dist/core-tetris.js"
+    "dev": "nodemon -w src -e js --exec 'node build/dev.js; node dist/wasd-tetris.js'",
+    "play": "node build/dev.js; node dist/wasd-tetris.js"
   },
   "keywords": [
     "Tetris"
