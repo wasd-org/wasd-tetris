@@ -12,6 +12,18 @@ const I = [
     0b0010,
     0b0010,
     0b0010
+  ],
+  [
+    0b0000,
+    0b0000,
+    0b1111,
+    0b0000
+  ],
+  [
+    0b0100,
+    0b0100,
+    0b0100,
+    0b0100
   ]
 ]
 
@@ -176,15 +188,58 @@ export default class Shape {
     return this.shapes[this.sequence]
   }
 
+  get margin() {
+    const { shape } = this
+    let horizontalGutter = false
+    let top = 0
+    let bottom = 0
+    shape.forEach(r => {
+      if (r) {
+        horizontalGutter = true
+      } else {
+        if (horizontalGutter) {
+          bottom++
+        } else {
+          top++
+        }
+      }
+    })
+
+    let union = shape.reduce((p, c) => p | c, 0)
+    union = padStart(union.toString(2), this.maxCol, '0')
+
+    let verticalGutter = false
+    let left = 0
+    let right = 0
+    union.split('').forEach(c => {
+      if (c === '1') {
+        verticalGutter = true
+      } else {
+        if (verticalGutter) {
+          right++
+        } else {
+          left++
+        }
+      }
+    })
+
+    return {
+      top,
+      bottom,
+      left,
+      right
+    }
+  }
+
   get row() {
-    return this.shape.filter(a => a).length
+    return this.maxRow - this.margin.top - this.margin.bottom
   }
 
   get col() {
     return this.shape.reduce((p, c) => p | c, 0).toString(2).length
   }
 
-  next(clockwise = true) {
+  rotate(clockwise = true) {
     if (clockwise) {
       this.sequence++
     } else {

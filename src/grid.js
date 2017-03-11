@@ -6,59 +6,75 @@ export default class Grid {
     this.col = col
     this.grid = new Array(row).fill(0)
 
-    this.x = Math.round(col / 2)
-    this.y = Math.round(row / 2)
+    this.gutter = (0b1 << (this.col)) - 1
+
+    this.grid[0] = this.gutter
+
+    this.x = 0
+    this.y = 0
+  }
+
+  get shift() {
+    return this.x - this.col + this.shape.col
   }
 
   addShape(s) {
-    const { row, col, maxRow, shape } = s
-    this.x = Math.round((this.col - col) / 2)
-    this.y = -maxRow
-    for (let i = maxRow - 1; i >= 0; i--) {
-      if (!shape[i]) {
-        this.y++
-      } else {
-        break
-      }
-    }
-    console.log(this.intersect(this.x + 4, this.y + 3, s))
+    this.shape = s
+    const { row, col, maxRow, margin, shape } = s
+    this.x = Math.floor((this.col - col) / 2)
+    this.y = -maxRow + margin.bottom
+
+    shape.forEach((s, i) => {
+      if (i + this.y >= 0) return
+      console.log(this.padRow(s), this.padRow(this.moveRow(s, this.shift)))
+    })
+
+    console.log('------')
+
+    console.log(this.move(this.x, this.y + 3, s))
   }
 
-  intersect(x, y, s) {
-    console.log(x, y, s.shape)
+  move(x, y, s) {
+    const { shape, margin, maxRow, col } = s
+    const grid = this.grid.slice()
+
     // left overflow
-    if (x < 0) return false
+    if (x + margin.left < 0) return false
     // right overflow
-    if (s.col + x > this.col + 1) return false
+    if (x + margin.left + col > this.col) return false
 
-    const { shape } = s
-    const { grid, row } = this
+    let startY = y + margin.top
+    if (startY < 0) startY = 0
+    let startIndex = margin.top - 1 - y
+    if (startIndex < 0) startIndex = 0
 
-    const l = shape.length
-
-    for (let i = l - 1; i >= 0; i--) {
-      const currentY = i + y
-      if (currentY >= 0) {
-        // bottom overflow
-        if (currentY > row - 1) return false
-        const currentRow = grid[currentY]
-        const row = shape[i] << x
-        // collide
-        if (currentRow | row) return false
-      }
+    console.log(startY, startIndex)
+    for (let i = startIndex, l = maxRow - margin.bottom; i < l; i++) {
+      const shiftedRow = this.moveRow(shape[i], this.shift)
+      const gridRow = grid[startY + i - startIndex]
+      console.log(this.padRow(shiftedRow), this.padRow(gridRow))
     }
 
+    // this.print()
     return true
   }
 
+  moveRow(num, delta) {
+    if (delta > 0) {
+      return (num >>> delta) & this.gutter
+    } else {
+      return (num << -delta) & this.gutter
+    }
+  }
 
   padRow(num) {
     return padStart(num.toString(2), this.col, '0')
   }
 
   print() {
+    const { grid } = this
     for (let i = 0; i < this.row; i++) {
-      console.log(padStart(this.grid[i].toString(2), this.col, '0'))
+      console.log(this.padRow(grid[i]))
     }
   }
 }
