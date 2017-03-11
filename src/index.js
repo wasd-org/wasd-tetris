@@ -15,7 +15,7 @@ const w = graph => {
 ${top}
 ${content}
 ${bottom}
-`.replace(/0/g, ' ')
+`.replace(/0/g, ' ').replace(/1/g, '█')
 }
 
 grid.addShape(new Shape())

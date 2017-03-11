@@ -7,7 +7,9 @@ export default class Draw {
     this.row = row
     this.col = col
     this.flush()
+    stream.write('\x1B[?25l')
     process.on('exit', () => {
+      stream.write('\x1B[?25h')
       this.write('\n')
     })
   }
