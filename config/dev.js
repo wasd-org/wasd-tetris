@@ -1,9 +1,11 @@
 import buble from 'rollup-plugin-buble'
+import resolve from 'rollup-plugin-node-resolve'
 
 export default {
   entry: 'src/index.js',
   plugins: [
-    buble()
+    buble(),
+    resolve()
   ],
   targets: [
     { dest: 'dist/tetris.js', format: 'umd' },

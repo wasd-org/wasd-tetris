@@ -1,4 +1,4 @@
-import Grid from './class/grid/index.js'
+import Grid from './class/grid'
 
 const grid = new Grid({
   node: {
@@ -6,3 +6,4 @@ const grid = new Grid({
   }
 })
 console.log(grid)
+grid.addShape()

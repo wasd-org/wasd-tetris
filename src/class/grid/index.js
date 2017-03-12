@@ -1,5 +1,4 @@
-import { extend } from '../../utils/object'
-import { generateBitmap } from '../../utils/bit'
+import { extend, generateBitmap, err } from '../../utils'
 
 class Grid {
   constructor (options) {
@@ -17,7 +16,7 @@ class Grid {
 
   addShape (shape) {
     if (!shape) {
-      return this
+      err('A shape is needed.')
     }
   }
 

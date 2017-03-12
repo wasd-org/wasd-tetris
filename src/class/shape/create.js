@@ -1,4 +1,4 @@
-import { transpose, generateBitmap, equalBitmap, generateAttribute } from '../../utils/bit'
+import { transpose, generateBitmap, equalBitmap, generateAttribute } from '../../utils'
 
 /**
  * Create shapes by provided shape

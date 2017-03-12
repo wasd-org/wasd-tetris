@@ -1,4 +1,4 @@
-import { extend } from '../../utils/object'
+import { extend } from '../../utils'
 
 class Shape {
   construcotr () {
