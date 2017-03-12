@@ -4,14 +4,36 @@ export default class Grid {
   constructor(row = 20, col = 10) {
     this.row = row
     this.col = col
-    this._grid = this.grid = new Array(row).fill(0)
 
     this.gutter = (0b1 << (this.col)) - 1
 
     this.x = 0
     this.y = 0
 
+    this.interval = null
     this.listners = {}
+
+    this.reset()
+    this.process()
+  }
+
+  process(time = 500) {
+    if (!this.shape) return
+    this.interval = setInterval(() => {
+      this.down()
+      this.emit('process')
+    }, time)
+  }
+
+  fail() {
+    clearInterval(this.interval)
+    this.interval = null
+    this.emit('fail')
+  }
+
+  reset() {
+    this.shape = null
+    this._grid = this.grid = new Array(this.row).fill(0)
   }
 
   on(name, cb) {
@@ -34,12 +56,27 @@ export default class Grid {
     const { row, col, maxRow, margin, shape } = s
     this.x = Math.floor((this.col - col) / 2)
     this.y = -maxRow + margin.bottom
+
+    this.y++
+    if (!this.move()) {
+      this.fail()
+    } else {
+      this.y--
+      if (!this.interval) this.process()
+    }
+  }
+
+  bingo() {
+    const { row } = this
+    const grid = this.grid.filter(i => i !== this.gutter)
+    this.grid = new Array(row - grid.length).fill(0).concat(grid)
   }
 
   down(num = 1) {
     this.y += num
     if (!this.move()) {
       this.y -= num
+      this.bingo()
       this.emit('bottom-collide')
     }
     return this
@@ -63,7 +100,15 @@ export default class Grid {
     return this
   }
 
+  fall() {
+    do {
+      this.y++
+    } while (this.move())
+    this.down()
+  }
+
   move(x = this.x, y = this.y, s = this.shape) {
+    if (!s) return
     const { shape, margin, maxRow, row, col } = s
     const grid = this._grid.slice()
 

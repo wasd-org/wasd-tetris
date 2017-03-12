@@ -1,6 +1,6 @@
 {
   "name": "wasd-tetris",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "🎮 A tetris only with core data layer.",
   "main": "index.js",
   "scripts": {

@@ -18,13 +18,15 @@ ${bottom}
 `.replace(/0/g, draw.block(1, 'default')).replace(/1/g, draw.block())
 }
 
+draw.write(w(grid.graph))
+
 grid.addShape(new Shape())
 draw.clear().write(w(grid.graph))
 keypress(process.stdin)
 
 process.stdin.on('keypress', (ch, key) => {
   if (!key) return
-  if (key.name === 'c' && key.ctrl) return process.exit(0)
+  if (key.name === 'c' && key.ctrl || key.name === 'q') return process.exit(0)
   if (key.name === 'down' || key.name === 'j') {
     grid.down()
   }
@@ -37,11 +39,23 @@ process.stdin.on('keypress', (ch, key) => {
   if (key.name === 'up' || key.name === 'k') {
     grid.up()
   }
+  if (key.name === 'space') {
+    grid.fall()
+  }
+
   draw.clear().write(w(grid.graph))
 })
 
 grid.on('bottom-collide', () => {
   grid.addShape(new Shape())
+})
+
+grid.on('process', () => {
+  draw.clear().write(w(grid.graph))
+})
+
+grid.on('fail', () => {
+  grid.reset()
 })
 
 process.stdin.resume()
