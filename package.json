@@ -19,5 +19,8 @@
     "rollup-plugin-node-builtins": "^2.1.0",
     "rollup-plugin-node-globals": "^1.1.0",
     "rollup-plugin-node-resolve": "^2.0.0"
+  },
+  "dependencies": {
+    "keypress": "^0.2.1"
   }
 }

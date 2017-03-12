@@ -8,14 +8,14 @@ const grid = new Grid()
 const draw = new Draw()
 
 const w = graph => {
-  const top = '┌' + times('─', 10) + '┐'
-  const content = graph.split('\n').map(a => '│' + a + '│').join('\n')
-  const bottom = '└' + times('─', 10) + '┘'
+  const top = draw.block(12, 'cyan')
+  const content = graph.split('\n').map(a => draw.block(1, 'cyan') + a + draw.block(1, 'cyan')).join('\n')
+  const bottom = draw.block(12, 'cyan')
   return `
 ${top}
 ${content}
 ${bottom}
-`.replace(/0/g, ' ').replace(/1/g, '█')
+`.replace(/0/g, draw.block(1, 'default')).replace(/1/g, draw.block())
 }
 
 grid.addShape(new Shape())
@@ -23,6 +23,7 @@ draw.clear().write(w(grid.graph))
 keypress(process.stdin)
 
 process.stdin.on('keypress', (ch, key) => {
+  if (!key) return
   if (key.name === 'c' && key.ctrl) return process.exit(0)
   if (key.name === 'down' || key.name === 'j') {
     grid.down()
