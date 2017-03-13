@@ -1,8 +1,8 @@
-export function initEvent (instance) {
+export function initEvents (instance) {
   instance._events = Object.create(null)
 }
 
-export function mixinEvent (Class) {
+export function mixinEvents (Class) {
   Class.prototype.on = function (event, cb) {
     const instance = this
 

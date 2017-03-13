@@ -1,30 +1,29 @@
-import { extend } from '../../utils'
+import { extend, pickRandomFromArray } from '../../utils'
+import types from './types'
+import createShapes from './create'
 
 class Shape {
-  construcotr () {
+  constructor (options) {
     this._options = extend({
-      shape: null,
+      shapes: null,
       x: 0,
       y: 0
     }, options)
 
-    this._init()
-
-    return this
-  }
-
-  /**
-   * Init shape
-   * @return {shape}
-   */
-  _init () {
     this._index = 0
+
+    this.x = this._options.x
+    this.y = this._options.y
 
     return this
   }
 
   get shape () {
-    return this._options.shape[this._index]
+    return this._options.shapes[this._index]
+  }
+
+  get bitmap () {
+    return this.shape.bitmap
   }
 
   /**

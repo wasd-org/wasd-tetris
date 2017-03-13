@@ -12,12 +12,8 @@ class Grid {
 
     const gridRow = Array(col).fill(node)
     this._grid = Array(row).fill(gridRow)
-  }
 
-  addShape (shape) {
-    if (!shape) {
-      err('A shape is needed.')
-    }
+    this._gutter = (0b1 << col) - 1
   }
 
   get bitmap () {

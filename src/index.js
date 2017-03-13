@@ -1,9 +1,15 @@
-import Grid from './class/grid'
+import Tetris from './class/tetris'
 
-const grid = new Grid({
-  node: {
-    color: 'white'
-  }
+const tetris = new Tetris({
+  grid: {
+    row: 20,
+    col: 10
+  },
+  speed: 500
 })
-console.log(grid)
-grid.addShape()
+
+tetris.start()
+
+tetris.on('init', ({ grid, shapes }) => {
+  console.log(grid, shapes)
+})

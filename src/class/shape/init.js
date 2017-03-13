@@ -1,5 +1,19 @@
+import create from './create'
 import types from './types'
+import { extend, pickRandomFromArray } from '../../utils'
+import Shape from './index'
 
 export default function initShapes (instance) {
-  instance.shapes = instance._options.shapes || types
+  const { shapes } = instance._options.shapes
+  if (shapes) {
+    instance._shapes = shapes.map(s => create(s))
+  } else {
+    instance._shapes = types
+  }
+
+  instance._generateShape = function (options) {
+    return new Shape(extend({
+      shapes: pickRandomFromArray(instance._shapes)
+    }, options))
+  }
 }
