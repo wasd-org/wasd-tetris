@@ -28,16 +28,18 @@ class Tetris {
     })
   }
 
-  start () {
-    this.addShape()
+  start (options) {
+    this.addShape(this.generateShape(options))
   }
 
   process () {
     this.interval = (() => {
+      this.down()
     }, this._speed)
   }
 
   pause () {
+    clearInterval(this._interval)
     this._interval = null
   }
 
@@ -45,20 +47,46 @@ class Tetris {
     this.process()
   }
 
-  addShape (options) {
-    this._shape = this._generateShape(options)
+  addShape (shape) {
+    this._shape = shape
+  }
+
+  left () {
+    this._move(-1, 0)
+  }
+
+  rihgt () {
+    this._move(1, 0)
+  }
+
+  down () {
+    if (!this._move(0, 1)) {
+      this.emit('hit')
+    }
   }
 
   _move (x = 0, y = 0) {
     this._shape.move(x, y)
     if (!this._detect()) {
       this._shape.move(-x, -y)
+      return false
     }
+    return true
   }
 
   _detect () {
+    const { x, y, margin, maxCol } = this._shape
+    console.log(x, y, margin, maxCol)
     // left overflow
+    if (x + margin.left < 0) {
+      this.emit('left-overflow')
+      return false
+    }
     // right overflow
+    if (x + maxCol > this.col) {
+      this.emit('right-overflow')
+      return false
+    }
     // hit bottom
   }
 }

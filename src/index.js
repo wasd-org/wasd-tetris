@@ -10,6 +10,12 @@ const tetris = new Tetris({
 
 tetris.start()
 
-tetris.on('init', ({ grid, shapes }) => {
-  console.log(grid, shapes)
+tetris.on('left-overflow', () => {
+  console.log('left-overflow')
 })
+
+tetris.on('right-overflow', () => {
+  console.log('right-overflow')
+})
+
+tetris._move(10 - tetris._shape.margin.left - tetris._shape.x - tetris._shape.maxCol + 1, 0)

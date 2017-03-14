@@ -26,6 +26,18 @@ class Shape {
     return this.shape.bitmap
   }
 
+  get margin () {
+    return this.shape.margin
+  }
+
+  get maxCol () {
+    return this.shape.maxCol
+  }
+
+  get maxRow () {
+    return this.shape.maxRow
+  }
+
   /**
    * Move shape
    * @param  {Number} x - horizontal move

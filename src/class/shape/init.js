@@ -11,7 +11,7 @@ export default function initShapes (instance) {
     instance._shapes = types
   }
 
-  instance._generateShape = function (options) {
+  instance.generateShape = function (options) {
     return new Shape(extend({
       shapes: pickRandomFromArray(instance._shapes)
     }, options))
