@@ -19,3 +19,11 @@ tetris.on('right-overflow', () => {
 })
 
 tetris._move(10 - tetris._shape.margin.left - tetris._shape.x - tetris._shape.maxCol + 1, 0)
+
+setTimeout(() => {
+  tetris.pause()
+}, 2000)
+
+setTimeout(() => {
+  tetris.resume()
+}, 4000)

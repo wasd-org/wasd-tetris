@@ -1,8 +1,16 @@
 import { initEvents, mixinEvents } from '../mixinxs/events'
+import { initStates, mixinStates } from '../mixinxs/state'
+import { extend } from '../utils'
+
 import initShapes from './shape/init'
 import Grid from './grid'
-import { extend } from '../utils'
 import types from  './shape/types'
+
+const STATE = {
+  PLAYING: 'PLAYING',
+  PAUSED: 'PAUSED',
+  FAILED: 'FAILED'
+}
 
 class Tetris {
   constructor(options) {
@@ -14,6 +22,7 @@ class Tetris {
     }, options)
 
     initEvents(this)
+    initStates(this, STATE)
     initShapes(this)
 
     this._grid = new Grid(this._options)
@@ -28,23 +37,50 @@ class Tetris {
     })
   }
 
+  _stateHandler (state, ...args) {
+    switch (state) {
+      case STATE.PLAYING:
+        this._paused = false
+        this.process()
+        break
+      case STATE.PAUSED:
+        this._paused = true
+        if (this._timeout) {
+          clearTimeout(this._timeout)
+          this._timeout = null
+        }
+        break
+      case STATE.FAILED:
+        if (this._timeout) {
+          clearTimeout(this._timeout)
+          this._timeout = null
+        }
+        break
+      default:
+        break
+    }
+  }
+
   start (options) {
     this.addShape(this.generateShape(options))
+    this._action(STATE.PLAYING)
   }
 
   process () {
-    this.interval = (() => {
-      this.down()
-    }, this._speed)
+    this.down()
+    if (!this._paused) {
+      this._timeout = setTimeout(() => {
+        this.process()
+      }, this._speed)
+    }
   }
 
   pause () {
-    clearInterval(this._interval)
-    this._interval = null
+    this._action(STATE.PAUSED)
   }
 
   resume () {
-    this.process()
+    this._action(STATE.PLAYING)
   }
 
   addShape (shape) {
@@ -83,7 +119,7 @@ class Tetris {
       return false
     }
     // right overflow
-    if (x + maxCol > this.col) {
+    if (x + margin.left + margin.col > this.col) {
       this.emit('right-overflow')
       return false
     }
@@ -92,5 +128,6 @@ class Tetris {
 }
 
 mixinEvents(Tetris)
+mixinStates(Tetris)
 
 export default Tetris
