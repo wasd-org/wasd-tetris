@@ -10,20 +10,18 @@ const tetris = new Tetris({
 
 tetris.start()
 
-tetris.on('left-overflow', () => {
-  console.log('left-overflow')
+tetris.on('overflow:left', () => {
+  console.log('overflow:left')
 })
 
-tetris.on('right-overflow', () => {
-  console.log('right-overflow')
+tetris.on('overflow:right', () => {
+  console.log('overflow:right')
 })
 
-tetris._move(10 - tetris._shape.margin.left - tetris._shape.x - tetris._shape.maxCol + 1, 0)
+tetris.on('hit', () => {
+  console.log('hit')
+})
 
-setTimeout(() => {
-  tetris.pause()
-}, 2000)
-
-setTimeout(() => {
-  tetris.resume()
-}, 4000)
+tetris.on('process', graph => {
+  console.log(graph)
+})
