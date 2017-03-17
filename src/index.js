@@ -23,5 +23,5 @@ tetris.on('hit', () => {
 })
 
 tetris.on('process', graph => {
-  console.log(graph)
+  console.log(graph.map(g => g.join('')).join('\n'))
 })

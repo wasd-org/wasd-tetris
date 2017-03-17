@@ -62,7 +62,6 @@ class Tetris {
         }
         break
       case STATE.HIT:
-        console.log('HIT')
         this.addShape(this.generateShape())
         break
       default:
@@ -72,7 +71,10 @@ class Tetris {
 
   start () {
     this.addShape(this.generateShape())
-    this._action(STATE.PLAYING)
+    console.log(this.graph.map(g => g.join('')).join('\n'))
+    this.down()
+    console.log(this.graph.map(g => g.join('')).join('\n'))
+    // this._action(STATE.PLAYING)
   }
 
   process () {
@@ -93,9 +95,16 @@ class Tetris {
     this._action(STATE.PLAYING)
   }
 
-  addShape (shape) {
+  addShape (shape, x, y) {
+    const { margin } = shape
+    if (x === undefined || y === undefined) {
+      x = Math.floor((this.col - margin.col) / 2)
+      y = 0 - margin.top
+    }
+    shape.move(x, y)
     this._grid = this.grid
     this._shape = shape
+    this._union()
   }
 
   left () {
@@ -120,7 +129,27 @@ class Tetris {
       }
       return false
     }
+    this._union()
     return true
+  }
+
+  _union () {
+    const shape = this._shape.shape.origin
+    let grid = this._grid._grid.slice()
+    const { x, y, maxCol, margin } = this._shape
+    console.log(x, y, maxCol, margin)
+
+    const shift = this.col - maxCol - x
+
+    for (let i = margin.top, rowLength = margin.top + margin.row; i < rowLength; i++) {
+      for (let j = margin.left, colLength = margin.left + margin.col; j < colLength; j++) {
+        if (shape[i][j]) {
+          grid[y + i][x + j] = shape[i][j]
+        }
+      }
+    }
+
+    this.grid._grid = grid
   }
 
   _detect () {
@@ -146,8 +175,6 @@ class Tetris {
 
     const shift = this.col - maxCol - x
 
-    const newGrid = this.grid._grid.slice(0)
-
     // hit existed shape
     for (let i = margin.top, l = margin.top + margin.row; i < l; i++) {
       const g = gridBitmap[y + i]
@@ -161,17 +188,13 @@ class Tetris {
       if (g & s) {
         return false
       }
-
-      newGrid[y + i] = shape[i].slice(shift).concat(Array(shift).fill(this._options.node))
     }
-
-    this.grid._grid = newGrid
 
     return true
   }
 
   get graph () {
-    return this.grid._grid.map(r => this.padRow(r))
+    return this.grid._grid
   }
 
   padRow (num) {

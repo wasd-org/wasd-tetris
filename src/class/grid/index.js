@@ -10,8 +10,13 @@ class Grid {
 
     const { row, col, node } = this._options
 
-    const gridRow = Array(col).fill(node)
-    this._grid = Array(row).fill(gridRow)
+    this._grid = []
+    for (let i = 0; i < row; i++) {
+      const g = this._grid[i] = []
+      for (let j = 0; j < col; j++) {
+        g.push(node)
+      }
+    }
 
     this._gutter = (0b1 << col) - 1
   }
