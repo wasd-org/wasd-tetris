@@ -27,7 +27,8 @@ class Tetris {
     initStates(this, STATE)
     initShapes(this)
 
-    this.grid = this._grid = new Grid(this._options)
+    this._grid = new Grid(this._options)
+    this.grid = this._grid._grid.slice()
     this._interval = null
     this._speed = this._options.speed
     this.row = this._options.row
@@ -72,6 +73,7 @@ class Tetris {
   start () {
     this.addShape(this.generateShape())
     console.log(this.graph.map(g => g.join('')).join('\n'))
+    debugger;
     this.down()
     console.log(this.graph.map(g => g.join('')).join('\n'))
     // this._action(STATE.PLAYING)
@@ -96,13 +98,14 @@ class Tetris {
   }
 
   addShape (shape, x, y) {
+    debugger;
+    this._grid._grid = this.grid.slice()
     const { margin } = shape
     if (x === undefined || y === undefined) {
       x = Math.floor((this.col - margin.col) / 2)
       y = 0 - margin.top
     }
     shape.move(x, y)
-    this._grid = this.grid
     this._shape = shape
     this._union()
   }
@@ -122,10 +125,9 @@ class Tetris {
   _move (x = 0, y = 0) {
     this._shape.move(x, y)
     if (!this._detect()) {
+      this._shape.move(-x, -y)
       if (y > 0) {
         this._action(STATE.HIT)
-      } else {
-        this._shape.move(-x, -y)
       }
       return false
     }
@@ -135,7 +137,7 @@ class Tetris {
 
   _union () {
     const shape = this._shape.shape.origin
-    let grid = this._grid._grid.slice()
+    const grid = this._grid._grid.slice()
     const { x, y, maxCol, margin } = this._shape
     console.log(x, y, maxCol, margin)
 
@@ -149,7 +151,7 @@ class Tetris {
       }
     }
 
-    this.grid._grid = grid
+    this.grid = grid
   }
 
   _detect () {
@@ -194,7 +196,7 @@ class Tetris {
   }
 
   get graph () {
-    return this.grid._grid
+    return this.grid
   }
 
   padRow (num) {
