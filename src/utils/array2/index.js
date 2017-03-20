@@ -1,0 +1,5 @@
+export * from './transpose'
+export * from './copy'
+export * from './reverse'
+export * from './rotate'
+export * from './equal'

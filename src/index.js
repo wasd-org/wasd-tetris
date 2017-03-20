@@ -1,31 +1,16 @@
-import Tetris from './class/tetris'
+import Shape from './components/block/shape'
 
-const tetris = new Tetris({
-  grid: {
-    row: 20,
-    col: 10
-  },
-  speed: 1000
-})
+const shape = new Shape([
+  [0, 1, 0],
+  [1, 1, 1]
+])
 
-tetris.start()
-
-tetris.on('overflow:left', () => {
-  console.log('overflow:left')
-})
-
-tetris.on('overflow:right', () => {
-  console.log('overflow:right')
-})
-
-tetris.on('hit', () => {
-  console.log('hit')
-})
-
-tetris.on('failed', () => {
-  console.log('failed')
-})
-
-tetris.on('repaint', graph => {
-  console.log(graph.map(g => g.join('')).join('\n'))
-})
+console.log(shape.shape)
+shape.rotate()
+console.log(shape.shape)
+shape.rotate()
+console.log(shape.shape)
+shape.rotate()
+console.log(shape.shape)
+shape.rotate()
+console.log(shape.shape)
