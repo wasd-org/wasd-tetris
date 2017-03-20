@@ -71,6 +71,8 @@ class Shape {
       this._index = 0
     }
 
+    console.log(this.shape)
+
     return this
   }
 

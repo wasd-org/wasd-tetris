@@ -5,7 +5,7 @@ const tetris = new Tetris({
     row: 20,
     col: 10
   },
-  speed: 500
+  speed: 1000
 })
 
 tetris.start()
@@ -22,6 +22,10 @@ tetris.on('hit', () => {
   console.log('hit')
 })
 
-tetris.on('process', graph => {
+tetris.on('failed', () => {
+  console.log('failed')
+})
+
+tetris.on('repaint', graph => {
   console.log(graph.map(g => g.join('')).join('\n'))
 })

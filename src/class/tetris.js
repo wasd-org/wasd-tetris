@@ -27,6 +27,8 @@ class Tetris {
     initStates(this, STATE)
     initShapes(this)
 
+    this._bind()
+
     this._grid = new Grid(this._options)
     this.grid = this._grid._grid.slice()
     this._interval = null
@@ -39,7 +41,28 @@ class Tetris {
         grid: this._grid,
         shapes: this._shapes
       })
+    })
+  }
 
+  _bind () {
+    document.addEventListener('keydown', (e) => {
+      switch (e.which) {
+        case 37: // arrow left
+          this.left()
+          break
+        case 38: // arrow up
+          this.rotate()
+          break
+        case 39: // arrow right
+          this.right()
+          break
+        case 40: // arrow down
+          this.down()
+          break
+        default:
+          this.emit('repaint', this.graph)
+          break
+      }
     })
   }
 
@@ -57,12 +80,16 @@ class Tetris {
         }
         break
       case STATE.FAILED:
+        this._paused = true
         if (this._timeout) {
           clearTimeout(this._timeout)
           this._timeout = null
         }
+        this.emit('failed')
         break
       case STATE.HIT:
+        this._action(STATE.FAILED)
+        this._detect()
         this.addShape(this.generateShape())
         break
       default:
@@ -72,21 +99,17 @@ class Tetris {
 
   start () {
     this.addShape(this.generateShape())
-    console.log(this.graph.map(g => g.join('')).join('\n'))
-    debugger;
-    this.down()
-    console.log(this.graph.map(g => g.join('')).join('\n'))
-    // this._action(STATE.PLAYING)
+    this._action(STATE.PLAYING)
   }
 
   process () {
-    this.emit('process', this.graph, this)
-    this.down()
-    if (!this._paused) {
-      this._timeout = setTimeout(() => {
-        this.process()
-      }, this._speed)
-    }
+    // this.emit('process', this.graph, this)
+    // this.down()
+    // if (!this._paused) {
+    //   this._timeout = setTimeout(() => {
+    //     this.process()
+    //   }, this._speed)
+    // }
   }
 
   pause () {
@@ -98,7 +121,6 @@ class Tetris {
   }
 
   addShape (shape, x, y) {
-    debugger;
     this._grid._grid = this.grid.slice()
     const { margin } = shape
     if (x === undefined || y === undefined) {
@@ -107,6 +129,20 @@ class Tetris {
     }
     shape.move(x, y)
     this._shape = shape
+    if (!this._detect()) {
+      this._action(STATE.FAILED)
+    }
+    this._union()
+  }
+
+  rotate () {
+    this._shape.rotate()
+    if (this._detect()) {
+      this.emit('rotate')
+      this.emit('repaint', this.graph)
+    } else {
+      this._shape.rotate(-1)
+    }
     this._union()
   }
 
@@ -114,7 +150,7 @@ class Tetris {
     this._move(-1, 0)
   }
 
-  rihgt () {
+  right () {
     this._move(1, 0)
   }
 
@@ -126,25 +162,28 @@ class Tetris {
     this._shape.move(x, y)
     if (!this._detect()) {
       this._shape.move(-x, -y)
+      this._union()
+      console.log(y)
       if (y > 0) {
         this._action(STATE.HIT)
       }
       return false
     }
     this._union()
+    this.emit('repaint', this.graph)
     return true
   }
 
   _union () {
     const shape = this._shape.shape.origin
-    const grid = this._grid._grid.slice()
+    const grid = this._grid._grid.map(g => g.slice())
     const { x, y, maxCol, margin } = this._shape
-    console.log(x, y, maxCol, margin)
+    const { row, col } = this
 
-    const shift = this.col - maxCol - x
+    const shift = col - maxCol - x
 
-    for (let i = margin.top, rowLength = margin.top + margin.row; i < rowLength; i++) {
-      for (let j = margin.left, colLength = margin.left + margin.col; j < colLength; j++) {
+    for (let i = margin.top, rowLength = margin.top + margin.row; i < rowLength && i < row; i++) {
+      for (let j = margin.left, colLength = margin.left + margin.col; j < colLength && j < col; j++) {
         if (shape[i][j]) {
           grid[y + i][x + j] = shape[i][j]
         }
@@ -167,6 +206,7 @@ class Tetris {
     // right overflow
     if (x + margin.left + margin.col > this.col) {
       this.emit('overflow:right')
+      this.emit('repaint', this.graph)
       return false
     }
 
