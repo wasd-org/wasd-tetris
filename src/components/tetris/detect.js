@@ -14,23 +14,23 @@ export default function (Tetris) {
     const { margin } = block.shape
 
     if (x + margin.left < left) {
-      return false
+      return true
     }
 
     if (x + margin.left + margin.col > right) {
-      return false
+      return true
     }
 
     // HIT
 
     if (y + margin.top + margin.row > bottom) {
-      return false
+      return true
     }
 
     if (intersect(this.matrix.coordinate, this.block.coordinate)) {
-      return false
+      return true
     }
 
-    return true
+    return false
   }
 }

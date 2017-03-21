@@ -23,6 +23,18 @@ export default class Tetris {
     this._bind()
 
     this.reset()
+
+    this.on('hit', () => {
+      const { y } = this.block
+      const { margin } = this.block.shape
+
+      if ( y + margin.top < this.matrix.y) {
+        this.fail()
+      } else {
+        this._union()
+        this.addBlock()
+      }
+    })
   }
 
   get graph () {
