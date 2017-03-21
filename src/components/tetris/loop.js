@@ -4,6 +4,9 @@ export default function (Tetris) {
   proto.reset = function () {
     this.matrix.reset()
 
+    this._paused = false
+    this._failed = false
+
     this.addBlock()
     this.resume()
   }
@@ -21,6 +24,13 @@ export default function (Tetris) {
     if (!this._timeout) {
       this._process()
     }
+  }
+
+  proto.fail = function () {
+    this._failed = true
+    this._paused = true
+
+    this.emit('failed')
   }
 
   proto.start = proto.reset

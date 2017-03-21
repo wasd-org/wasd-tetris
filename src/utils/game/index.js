@@ -1,4 +1,4 @@
-export * from './pad'
-export * from './shift'
+export * from './collision'
+export * from './slice'
 export * from './intersect'
 export * from './union'

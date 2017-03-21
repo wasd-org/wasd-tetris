@@ -19,6 +19,14 @@ export default class Shape {
     return this._shapes[this._index]
   }
 
+  get index () {
+    return this._index
+  }
+
+  set index (val) {
+    this._index = val
+  }
+
   get margin () {
     const gutter = Array(this.maxCol).fill(0).join('')
     const shape = this.shape

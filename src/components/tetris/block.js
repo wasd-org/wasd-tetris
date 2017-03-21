@@ -4,15 +4,15 @@ export default function (Tetris) {
   const proto = Tetris.prototype
 
   proto.down = function () {
-    this.block.down()
+    this.block.moveBy(0, 1)
   }
 
   proto.left = function () {
-    this.block.left()
+    this.block.moveBy(-1, 0)
   }
 
   proto.right = function () {
-    this.block.right()
+    this.block.moveBy(1, 0)
   }
 
   proto.rotate = function () {

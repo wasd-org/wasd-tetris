@@ -22,11 +22,11 @@ export default class Matrix {
     return {
       x: this.x,
       y: this.y,
-      array: this.grid
+      array: this.matrix
     }
   }
 
   reset () {
-    this.grid = create(this.row, this.col)
+    this.matrix = create(this.row, this.col)
   }
 }
