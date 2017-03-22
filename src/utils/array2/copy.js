@@ -1,3 +1,3 @@
-export function copy (array) {
-  return array.map(a => a.slice())
+export function copy(array) {
+  return array.map(a => a.slice());
 }

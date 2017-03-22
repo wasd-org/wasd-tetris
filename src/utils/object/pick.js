@@ -1,6 +1,6 @@
-export function pick (object) {
-  const array = Object.keys(object)
-  const index = Math.floor(Math.random() * array.length)
+export function pick(object) {
+  const array = Object.keys(object);
+  const index = Math.floor(Math.random() * array.length);
 
-  return object[array[index]]
+  return object[array[index]];
 }

@@ -1,28 +1,28 @@
-export default function (Tetris) {
-  const proto = Tetris.prototype
+export default function(Tetris) {
+  const proto = Tetris.prototype;
 
-  proto._bind = function () {
-    const instance = this
-    document.addEventListener('keydown', e => {
+  proto._bind = function() {
+    const instance = this;
+    document.addEventListener("keydown", e => {
       switch (e.which) {
         case 32:
           while (instance.down()) {
           }
         case 37:
-          instance.left()
-          break
+          instance.left();
+          break;
         case 38:
-          instance.rotate()
-          break
+          instance.rotate();
+          break;
         case 39:
-          instance.right()
-          break
+          instance.right();
+          break;
         case 40:
-          instance.down()
-          break
+          instance.down();
+          break;
         default:
-          break
+          break;
       }
-    })
-  }
+    });
+  };
 }

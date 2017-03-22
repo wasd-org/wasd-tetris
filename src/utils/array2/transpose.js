@@ -1,19 +1,19 @@
-export function transpose (array) {
-  const row = array.length
-  const col = array[0].length
+export function transpose(array) {
+  const row = array.length;
+  const col = array[0].length;
 
   if (!row || !col) {
-    return array
+    return array;
   }
 
-  let ret = []
+  let ret = [];
 
   for (let i = 0; i < col; i++) {
-    ret.push([])
+    ret.push([]);
     for (let j = 0; j < row; j++) {
-      ret[i][j] = array[j][i]
+      ret[i][j] = array[j][i];
     }
   }
 
-  return ret
+  return ret;
 }

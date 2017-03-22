@@ -1,2 +1,2 @@
-export * from './extend'
-export * from './pick'
+export * from "./extend";
+export * from "./pick";

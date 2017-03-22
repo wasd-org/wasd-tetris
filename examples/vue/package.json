@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "vue-demo",
+  "description": "A vue demo for wasd-tetris.",
+  "version": "0.0.0",
+  "repository": {},
+  "scripts": {
+    "test": "echo lol",
+
+    "lint": "vbuild --eslint",
+    "dev": "vbuild -d",
+    "build": "vbuild"
+  },
+  "devDependencies": {
+    "offline-plugin": "^4.6.1",
+    "vbuild": "^6.0.0"
+  },
+  "license": "MIT"
+}

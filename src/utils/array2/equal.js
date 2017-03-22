@@ -27,6 +27,6 @@
 //   return true
 // }
 
-export function equal (a, b) {
-  return JSON.stringify(a) === JSON.stringify(b)
+export function equal(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
 }
