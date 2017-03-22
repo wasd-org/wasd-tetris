@@ -14,10 +14,11 @@ export default class Tetris {
   constructor (options) {
     this._options = extend({
       matrix: new Matrix(),
-      auto: true
+      auto: true,
+      speed: 500
     }, options)
 
-    this.matrix = this._options.matrix
+
     this._events = {}
 
     this._bind()
@@ -31,8 +32,7 @@ export default class Tetris {
       if ( y + margin.top < this.matrix.y) {
         this.fail()
       } else {
-        this._union()
-        this.addBlock()
+        this._next()
       }
     })
   }

@@ -1,21 +1,4 @@
-import Tetris from './components/tetris'
-
-const tetris = new Tetris()
-
-import { intersect } from './utils/game'
-
-const p = (a) => {
-  let str = ''
-  a.forEach(s => {
-    str = str + s.join('') + '\n'
-  })
-  console.log(str)
-}
-
-tetris.on('repaint', graph => {
-  p(graph.array)
-})
-
-tetris.on('failed', () => {
-  console.log('failed')
-})
+export { default as Tetris } from './components/tetris'
+export { default as Shape } from './components/shape'
+export { default as Block } from './components/block'
+export { default as Matrix } from './components/matrix'

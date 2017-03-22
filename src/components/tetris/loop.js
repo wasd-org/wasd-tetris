@@ -2,6 +2,9 @@ export default function (Tetris) {
   const proto = Tetris.prototype
 
   proto.reset = function () {
+    this.auto = this._options.auto
+    this.speed = this._options.speed
+    this.matrix = this._options.matrix
     this.matrix.reset()
 
     this._paused = false
@@ -37,15 +40,23 @@ export default function (Tetris) {
 
   proto._process = function () {
     const instance = this
-    const { auto, speed } = this._options
+    const { auto, speed } = this
     const loop = () => {
+
       if (auto && speed && !instance._paused) {
         instance._timeout = setTimeout(() => {
-          instance.block.down()
+          instance.down()
+          loop()
         }, speed)
       }
     }
 
     loop()
+  }
+
+  proto._next = function () {
+    this._union()
+    this._clearLines()
+    this.addBlock()
   }
 }

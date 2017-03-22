@@ -6,5 +6,24 @@
 </head>
 <body>
   <script src="./dist/tetris.js"></script>
+  <script>
+    const tetris = new WASD_Tetris.Tetris()
+
+    tetris.on('repaint', graph => {
+      console.clear()
+      let str = ''
+      const array = graph.array
+      for (let i = 0, l = array.length; i < l; i++) {
+        str = str + array[i].join('') + '\n'
+      }
+      console.log(str)
+    })
+
+    tetris.on('failed', () => {
+      alert('failed')
+    })
+
+    tetris.start()
+  </script>
 </body>
 </html>

@@ -8,10 +8,12 @@ export default function (Tetris) {
     this.save()
     this.block.moveBy(0, 1)
     if (this._detectCollision()) {
-      this.emit('hit')
       this.restore()
+      this.emit('hit')
+      return false
     } else {
       this.emit('repaint', this.graph)
+      return true
     }
   }
 
@@ -20,10 +22,12 @@ export default function (Tetris) {
     this.save()
     this.block.moveBy(-1, 0)
     if (this._detectCollision()) {
-      this.emit('overflow:left')
       this.restore()
+      this.emit('overflow:left')
+      return false
     } else {
       this.emit('repaint', this.graph)
+      return true
     }
   }
 
@@ -32,10 +36,12 @@ export default function (Tetris) {
     this.save()
     this.block.moveBy(1, 0)
     if (this._detectCollision()) {
-      this.emit('overflow:right')
       this.restore()
+      this.emit('overflow:right')
+      return false
     } else {
       this.emit('repaint', this.graph)
+      return true
     }
   }
 
@@ -44,10 +50,12 @@ export default function (Tetris) {
     this.save()
     this.block.rotate()
     if (this._detectCollision()) {
-      this.emit('hit:rotate')
       this.restore()
+      this.emit('hit:rotate')
+      return false
     } else {
       this.emit('repaint', this.graph)
+      return true
     }
   }
 

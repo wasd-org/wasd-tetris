@@ -4,7 +4,8 @@
   "description": "🎮 A tetris only with core data layer.",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -c config/dev.js -w"
+    "dev": "rollup -c config/dev.js -w",
+    "build": "rollup -c config/prod.js"
   },
   "keywords": [
     "Tetris"

@@ -5,6 +5,9 @@ export default function (Tetris) {
     const instance = this
     document.addEventListener('keydown', e => {
       switch (e.which) {
+        case 32:
+          while (instance.down()) {
+          }
         case 37:
           instance.left()
           break

@@ -5,6 +5,7 @@ import { padStart, padEnd } from '../array'
 export function padTop (array, length, fill = 0) {
   array = copy(array)
   const l = array.length
+  if (!l) return array
   const row = length - l
   const col = array[0].length
 
