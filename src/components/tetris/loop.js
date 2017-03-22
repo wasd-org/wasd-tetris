@@ -11,7 +11,9 @@ export default function(Tetris) {
     this._failed = false;
 
     this.addBlock();
+    this.pause();
     this.resume();
+    this.emit('repaint', this.graph);
   };
 
   proto.pause = function() {
@@ -33,7 +35,8 @@ export default function(Tetris) {
     this._failed = true;
     this._paused = true;
 
-    this.emit("failed");
+    this.emit('repaint', this.graph);
+    this.emit('failed');
   };
 
   proto.start = proto.reset;
