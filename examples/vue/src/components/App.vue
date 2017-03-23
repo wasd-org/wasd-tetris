@@ -144,6 +144,7 @@
     min-height: 100%;
     flex-direction: column;
     border: 1px solid #4fc08d;
+    user-select: none;
   }
 
   a {
