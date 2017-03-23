@@ -143,11 +143,13 @@
     display: flex;
     min-height: 100%;
     flex-direction: column;
+    border: 1px solid #4fc08d;
   }
 
   a {
     color: #42b983;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .game {
