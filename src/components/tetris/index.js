@@ -24,8 +24,8 @@ export default class Tetris {
     this._events = {};
 
     this._bind();
-
     this.reset();
+    this.pause();
 
     this.on("hit", () => {
       const { y } = this.block;

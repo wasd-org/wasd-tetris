@@ -4,11 +4,12 @@ export default function(Tetris) {
   const proto = Tetris.prototype;
 
   proto.drop = function() {
+    if (this._failed || this._paused) return false;
     while (this.down()) {}
   };
 
   proto.down = function() {
-    if (this._failed) return false;
+    if (this._failed || this._paused) return false;
     this.save();
     this.block.moveBy(0, 1);
     if (this._detectCollision()) {
@@ -22,7 +23,7 @@ export default function(Tetris) {
   };
 
   proto.left = function() {
-    if (this._failed) return false;
+    if (this._failed || this._paused) return false;
     this.save();
     this.block.moveBy(-1, 0);
     if (this._detectCollision()) {
@@ -36,7 +37,7 @@ export default function(Tetris) {
   };
 
   proto.right = function() {
-    if (this._failed) return false;
+    if (this._failed || this._paused) return false;
     this.save();
     this.block.moveBy(1, 0);
     if (this._detectCollision()) {
@@ -50,7 +51,7 @@ export default function(Tetris) {
   };
 
   proto.rotate = function() {
-    if (this._failed) return false;
+    if (this._failed || this._paused) return false;
     this.save();
     this.block.rotate();
     if (this._detectCollision()) {
@@ -64,7 +65,7 @@ export default function(Tetris) {
   };
 
   proto.addBlock = function(block) {
-    if (this._failed) return false;
+    if (this._failed || this._paused) return false;
 
     if (!block) {
       block = new Block();

@@ -61,7 +61,7 @@
 
     </div>
 
-    <p>Powered by <a href="//github.com/wasd-org/wasd-tetris">wasd-tetris</a></p>
+    <p>Powered by <a href="//github.com/wasd-org/wasd-tetris" target="_blank">wasd-tetris</a></p>
   </div>
 </template>
 
@@ -135,6 +135,7 @@
   body {
     width: 100%;
     height: 100%;
+    overflow: hidden;
   }
 
   #app {
@@ -145,6 +146,10 @@
     flex-direction: column;
     border: 1px solid #4fc08d;
     user-select: none;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 
   a {
