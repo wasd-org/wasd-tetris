@@ -3,6 +3,10 @@ import Block from "../block";
 export default function(Tetris) {
   const proto = Tetris.prototype;
 
+  proto.drop = function() {
+    while (this.down()) {}
+  };
+
   proto.down = function() {
     if (this._failed) return false;
     this.save();
