@@ -1,8 +1,10 @@
 {
   "name": "wasd-tetris",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "🎮 A tetris only with core data layer.",
-  "main": "index.js",
+  "main": "dist/tetris.common.js",
+  "module": "dist/tetris.esm.js",
+  "unpkg": "dist/tetris.js",
   "scripts": {
     "dev": "rollup -c config/dev.js -w",
     "build": "rollup -c config/prod.js",
