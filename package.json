@@ -9,10 +9,15 @@
     "build:vue": "vbuild -c examples/vue/vbuild.config.js",
     "deploy": "gh-pages -d examples/dist"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wasd-org/wasd-tetris.git"
+  },
   "keywords": [
     "Tetris"
   ],
   "author": "liril <god@liril.net>",
+  "homepage": "https://wasd-org.github.io/wasd-tetris/",
   "license": "MIT",
   "devDependencies": {
     "gh-pages": "^0.12.0",
