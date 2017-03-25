@@ -100,6 +100,8 @@
         this.tetris.on('failed', () => {
           alert('Failed!')
         })
+
+        this.tetris.start()
       },
 
       start () {
